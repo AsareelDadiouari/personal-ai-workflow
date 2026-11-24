@@ -49,7 +49,7 @@ Each one is preloaded into its agent. You or Claude can also use it directly.
 
 | Skill | Purpose | Preloaded into |
 |---|---|---|
-| [`impact-analysis`](skills/impact-analysis/SKILL.md) | The mandatory pre-change analysis: dependencies, blast radius, regressions, tests. Distinguishes confirmed facts from assumptions. | All agents |
+| [`impact-analysis`](skills/impact-analysis/SKILL.md) | The mandatory pre-change analysis: dependencies, blast radius, regressions, tests. Distinguishes confirmed facts from assumptions. | `feature-implementation`, `bug-investigation`, `database-specialist` |
 | [`feature-implementation`](skills/feature-implementation/SKILL.md) | Requirement, plan, checkpoint, incremental implementation, tests. | `feature-implementation` |
 | [`bug-fixing`](skills/bug-fixing/SKILL.md) | Root-cause investigation, minimal fix, regression test. | `bug-investigation` |
 | [`database-analysis`](skills/database-analysis/SKILL.md) | Schema, integrity, locking, safe migrations, rollback, query review. | `database-specialist` |
@@ -66,7 +66,9 @@ Each workflow is a skill that only you can start, by name. It runs the steps in 
 | [`database-change`](skills/database-change/SKILL.md) | `/personal-ai-workflow:database-change <change>` | inspect schema → integrity analysis → proposal → rollback plan → approval → migration → non-production validation → report |
 | [`pull-request-review`](skills/pull-request-review/SKILL.md) | `/personal-ai-workflow:pull-request-review <PR or branch>` | requirement → full diff → regressions → tests → security and performance → findings by severity → assessment |
 
-Checkpoints, examples, and how reviewer independence is preserved: [docs/workflows.md](docs/workflows.md).
+**Small changes take a fast path.** `new-feature`, `bug-fix`, and `pull-request-review` check the size and risk of the change first. When it's small and low-risk, the main conversation does the work instead of starting extra agents, which saves tokens. `new-feature` still runs the independent review. Add `--full` to force the full path, or `--review-model sonnet` to run the reviewer on a cheaper model.
+
+Checkpoints, examples, the fast-path rules, and how reviewer independence is preserved: [docs/workflows.md](docs/workflows.md).
 
 ## Core principles
 
@@ -99,7 +101,7 @@ That single command uses the `--marketplace` option of `/plugin install`, which 
 
 Other options (local clone, one-session loading), how to check the installation, first runs, and troubleshooting: **[docs/getting-started.md](docs/getting-started.md)**.
 
-**Cost:** the plugin adds about 1,150 tokens to each session (the skill and agent descriptions). Each skill or agent costs roughly 0.5k–1.5k more tokens when it runs. These are estimates from `claude plugin details`, measured on Claude Code 2.1.331.
+**Cost:** the plugin adds about 450–600 tokens to each session (the descriptions Claude uses to decide when to use a skill or agent). Each skill or agent costs roughly 0.5k–1.5k more tokens when it runs. These are estimates from `claude plugin details` on Claude Code 2.1.331. On a small benchmark feature, the fast path cut the total cost of a `new-feature` run by about 40% compared with version 0.1.0. That figure comes from a single run each, so treat it as indicative.
 
 **Strongly recommended:** add real permission rules to your Claude Code settings. Prompts are guidance, not enforcement. See [Recommended permission settings](docs/security-principles.md#recommended-permission-settings).
 

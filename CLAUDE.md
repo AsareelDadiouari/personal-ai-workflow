@@ -19,6 +19,7 @@ A generic, reusable Claude Code plugin: subagents (`agents/`), skills (`skills/`
 ## Writing conventions
 
 - **Keep files short and direct.** Agents and skills are read by a model on every use, so every line costs context. Prefer checklists and concrete instructions over prose.
+- **Watch the token budget.** Descriptions of agents and model-invocable skills load into **every** session: keep each to one or two sentences that say what it does and when to use it. Every agent start costs its prompt, its preloaded skills, and a fresh read of the code, so preload only what an agent uses, and give workflows a fast path for small changes. Check `claude plugin details` before and after a change.
 - **One responsibility per file.** An agent describes a role. A skill describes a procedure. A workflow describes the order and the human checkpoints. Avoid duplicating content: reference the skill instead of copying its steps.
 - **Self-contained runtime rules.** Each agent and skill must state the safety rules it depends on, briefly, because it cannot rely on this file being loaded.
 - **Stack-neutral by default.** Mention specific technologies (.NET, Angular, PostgreSQL, ...) only as "if the project uses X" guidance, never as an assumption.

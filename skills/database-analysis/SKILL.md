@@ -1,6 +1,6 @@
 ---
 name: database-analysis
-description: Procedure for analyzing database schemas, relationships, constraints, queries, and migrations from the project's code. Assesses data-integrity, locking, and compatibility risks of schema changes, reviews SQL for correctness and performance, and designs safe migrations with rollback plans. Use for schema changes, migrations, slow or suspicious queries, and data-model questions.
+description: Procedure for schema changes, migrations, and SQL review, covering integrity and locking risks, safe migration patterns, and rollback. Use for database changes or slow queries.
 ---
 
 # Database analysis

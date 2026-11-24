@@ -64,7 +64,7 @@ No agent has the `Agent` tool, so none can spawn further subagents.
 
 ## Skill preloading and approvals
 
-- Each agent lists `impact-analysis` and its own procedure skill in its `skills` frontmatter. Claude Code injects the full skills into the agent's context at startup. This was tested with the plugin loaded through `--plugin-dir`: the bare skill name works for a skill in the same plugin.
+- Each agent lists its procedure skill in its `skills` frontmatter, and the three agents that change things also list `impact-analysis`. The reviewer skips it (about 1.4k tokens per review) and uses the compact evidence and blast-radius section in `independent-review` instead. Claude Code injects the full skills into the agent's context at startup. This was tested with the plugin loaded through `--plugin-dir`: the bare skill name works for a skill in the same plugin.
 - Subagents cannot talk to the user. When approval is needed, an agent stops and returns a section titled **APPROVAL NEEDED**. The main conversation shows it to the user and resumes the agent with the decision. See [agents.md](agents.md#approval-protocol).
 - Workflow skills use `disable-model-invocation: true` so they run only when the user calls them. Skills with that setting cannot be preloaded into agents, which fits the split: agents preload procedure skills only.
 - Plugin agents ignore the `hooks`, `mcpServers`, and `permissionMode` frontmatter fields, so the framework does not use them.

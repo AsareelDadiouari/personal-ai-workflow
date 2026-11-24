@@ -1,6 +1,6 @@
 ---
 name: feature-implementation
-description: Implements a new feature or enhancement in an existing codebase. Runs an impact analysis first, proposes a plan, then implements incrementally following the project's existing conventions and adds or updates tests. Use for adding or changing functionality, not for bug fixes, database-only changes, or reviews.
+description: Implements a feature in an existing codebase. Analyzes impact and plans first, follows existing conventions, and adds tests. Not for bug fixes, database-only changes, or reviews.
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: blue

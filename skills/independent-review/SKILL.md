@@ -1,6 +1,6 @@
 ---
 name: independent-review
-description: Procedure for an independent, read-only code review of a diff, branch, or set of files against the original requirement. Checks correctness, regressions, security, performance, tests, and maintainability, and reports findings ranked by severity with file references and a final verdict. Use to review changes or a pull request.
+description: Read-only, severity-ranked review of a diff or branch against its requirement, ending with a verdict. Use to review changes.
 ---
 
 # Independent review
@@ -23,13 +23,25 @@ Give an accurate, evidence-based review. Approval is earned by evidence, not by 
 3. **Check against the requirement.** Is every acceptance criterion met? Is anything required missing? Is anything present that was not asked for?
 4. **Look for problems**, in this order:
    - **Correctness:** logic errors; edge cases (null, empty, boundaries, time zones, concurrency); error handling; resource cleanup.
-   - **Regressions:** changed behavior for existing callers, contract changes, data compatibility. Use the `impact-analysis` skill to estimate the blast radius.
+   - **Regressions:** changed behavior for existing callers, contract changes, data compatibility. Search for callers of every changed public symbol, and rate the blast radius (below).
    - **Security:** input validation, injection, authorization checks, secrets, sensitive data in logs, unsafe deserialization, dependency risks.
    - **Performance:** N+1 queries, unbounded loops or results, missing indexes, unnecessary allocations in hot paths, blocking calls in async code.
    - **Tests:** are the changes covered? Are edge cases tested? Would the tests fail if the code were wrong?
    - **Maintainability:** unnecessary complexity or abstraction, duplication, inconsistency with project conventions, unclear naming, dead code.
 5. **Run the relevant tests** if possible, and report the results.
 6. **Report.** Findings only: do not apply fixes.
+
+## Evidence and blast radius
+
+Label what you could not verify directly: **Confirmed** (seen in code or tests, cite `file:line`), **Likely** (strong indirect evidence), **Assumed** (plausible, unverified), or **Unknown** (not determinable from the repository, for example external consumers).
+
+Blast radius:
+
+- **Low:** local to one module, with no public contract, schema, or shared-configuration change.
+- **Medium:** several modules or one public contract, or a backward-compatible schema change.
+- **High:** a breaking contract or schema change, a data migration, security logic, shared libraries, money or personal data, or important Unknowns.
+
+Unknowns raise the rating.
 
 ## Severity
 
@@ -60,6 +72,7 @@ Give an accurate, evidence-based review. Approval is earned by evidence, not by 
 - Coverage gaps: <list>
 
 ### Assessment
+**Blast radius:** Low | Medium | High
 **Verdict:** Approve | Approve with comments | Request changes
 <two or three sentences: overall quality, main risks, what was verified>
 ```

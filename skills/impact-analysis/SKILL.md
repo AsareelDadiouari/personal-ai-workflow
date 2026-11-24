@@ -1,6 +1,6 @@
 ---
 name: impact-analysis
-description: Read-only analysis of what a proposed change will affect before any code, schema, or configuration is modified. Identifies direct and indirect dependencies, affected APIs, services, components, database objects, and integrations, likely regressions, relevant and missing tests, and the blast radius, then proposes a plan. Use before implementing a feature, fixing a bug, changing a database structure, or when asked "what would this change affect?".
+description: Read-only analysis of what a proposed change affects (dependencies, regressions, tests, blast radius), ending in a plan. Use before changing code or schema, or when asked "what would this change affect?".
 ---
 
 # Impact analysis

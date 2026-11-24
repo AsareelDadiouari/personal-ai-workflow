@@ -1,6 +1,6 @@
 ---
 name: bug-investigation
-description: Investigates a reported bug, finds the root cause, checks where else it could occur, and applies the smallest safe fix with a regression test. Use for defects, errors, crashes, incorrect behavior, or failing tests, not for new features or refactoring.
+description: Investigates a bug to its root cause and applies the smallest safe fix with a regression test. Use for defects, errors, crashes, or failing tests.
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: red

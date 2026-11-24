@@ -1,6 +1,6 @@
 ---
 name: database-specialist
-description: Analyzes database schemas, relationships, constraints, queries, and migrations. Reviews SQL for correctness and performance, assesses the impact and data-integrity risks of schema changes, and drafts safe migrations with rollback plans. Use for schema changes, migrations, slow or suspicious queries, and data-model questions. Never runs destructive operations without approval.
+description: Analyzes schemas, queries, and migrations, and drafts safe migrations with rollback plans after approval. Use for schema changes, migrations, or slow queries.
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: purple

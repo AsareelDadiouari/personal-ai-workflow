@@ -1,6 +1,6 @@
 # Agents
 
-The framework ships four Claude Code [subagents](https://code.claude.com/docs/en/sub-agents). Each has one responsibility and a restricted tool list. Two skills are preloaded into each agent's context: `impact-analysis`, and the procedure skill for its role (see [workflows.md](workflows.md#procedure-skills)). The agent file itself holds only the role, the non-negotiables, the approval protocol, and the limitations.
+The framework ships four Claude Code [subagents](https://code.claude.com/docs/en/sub-agents). Each has one responsibility and a restricted tool list. Each agent has its procedure skill preloaded into its context. The three agents that change things also preload `impact-analysis`, while the reviewer uses a compact version built into its own skill to save tokens (see [workflows.md](workflows.md#procedure-skills)). The agent file itself holds only the role, the non-negotiables, the approval protocol, and the limitations.
 
 | Agent | Responsibility | Tools | Writes files | Definition |
 |---|---|---|---|---|

@@ -1,7 +1,7 @@
 ---
 name: pull-request-review
-description: Workflow for reviewing a pull request or branch. Covers the original requirement, the complete diff, regressions, test coverage, security and performance implications, severity-ranked findings, and a final assessment. Delegates to the code-reviewer agent. Never posts anything without approval.
-argument-hint: <PR number, branch, diff range, or "uncommitted changes", and optionally the requirement>
+description: Review a pull request, branch, or uncommitted changes with severity-ranked findings and a verdict.
+argument-hint: <PR number, branch, diff range, or "uncommitted changes"> [requirement] [--full] [--review-model <model>]
 disable-model-invocation: true
 ---
 
@@ -25,8 +25,12 @@ Agent names below assume the plugin is installed as `personal-ai-workflow`. If t
 
 1. **Identify the change and the requirement.** Determine the base and head (branch, commit range, or pull request). Get the original requirement from the user, the linked issue, or the pull request description. ⏸ If there is no requirement, ask the user for one, or confirm that the review should use inferred intent.
 2. **Make the complete diff available locally.** For uncommitted changes, the diff is `git diff HEAD` plus any untracked files from `git status`. Otherwise, use existing local refs if possible. ⏸ If the branch isn't available locally, ask before fetching. Note the size of the diff and any generated or vendored files.
-3. **Delegate the review** to `personal-ai-workflow:code-reviewer` with the requirement, the exact diff range, and any project context the user provided. If the head is not checked out, say so in the task: the reviewer must read the surrounding code with `git show <head>:<path>`, because the working tree holds a different version. The reviewer covers regressions, test coverage, security, and performance, ranks findings by severity, and gives a verdict.
-4. **Check the findings.** Open the cited lines for every Critical and High finding and confirm that it holds. Downgrade or drop findings that don't hold, and say which ones you changed and why. If you changed any, recompute the verdict from the remaining findings using the verdict rules of the `independent-review` skill.
+3. **Review.** Choose the path:
+   - **Fast path**, unless the user wrote `--full`: when the diff is small (about 150 changed lines and 3 files or fewer) **and** you have not written or discussed this change earlier in this conversation, review it yourself by following the `independent-review` skill. Skip step 4.
+   - **Full path** otherwise: delegate to `personal-ai-workflow:code-reviewer` with the requirement, the exact diff range, and any project context the user provided. If the user wrote `--review-model <model>`, pass that model for this delegation. If the head is not checked out, say so in the task: the reviewer must read the surrounding code with `git show <head>:<path>`, because the working tree holds a different version.
+
+   Tell the user which path you chose, in one line.
+4. **Check the findings** (full path). Open the cited lines for every Critical and High finding and confirm that it holds. Downgrade or drop findings that don't hold, and say which ones you changed and why. If you changed any, recompute the verdict from the remaining findings using the verdict rules of the `independent-review` skill.
 5. **Report** to the user, using the format below.
 6. **⏸ Optional follow-up.** Offer to draft review comments for the user to post, or, if the user owns the branch, to fix the confirmed findings through the `new-feature` or `bug-fix` workflow, which plans first and stops for approval. Do neither without a clear yes.
 

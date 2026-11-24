@@ -1,6 +1,6 @@
 ---
 name: bug-fixing
-description: Procedure for investigating and fixing a defect. Reproduce the problem, find the root cause rather than the symptom, check where else the same fault occurs, apply the smallest safe correction, add a regression test, verify, and report. Use for bugs, errors, crashes, incorrect behavior, or failing tests.
+description: Procedure for fixing a defect: reproduce, find the root cause, apply a minimal fix, and add a regression test. Use for bugs, errors, crashes, or failing tests.
 ---
 
 # Bug fixing

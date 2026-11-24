@@ -1,6 +1,6 @@
 ---
 name: feature-implementation
-description: Procedure for implementing a new feature or enhancement in an existing codebase. Understand the requirement, run an impact analysis, plan, pass an approval checkpoint when the change is substantial or risky, implement incrementally following existing conventions, test, verify the diff, and report. Use when adding or changing functionality.
+description: Procedure for adding or changing functionality, covering plan, approval checkpoint, incremental implementation, tests, and diff check. Use when implementing a feature.
 ---
 
 # Feature implementation

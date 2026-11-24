@@ -1,6 +1,6 @@
 ---
 name: database-change
-description: End-to-end workflow for a database schema change or migration. Covers schema and convention inspection, dependency and integrity analysis, proposal, migration and rollback plan, approval, migration drafting, validation in an authorized non-production environment, and documentation. Delegates to the database-specialist agent.
+description: End-to-end schema change or migration workflow with rollback plan, mandatory approval, and non-production validation.
 argument-hint: <schema change or migration needed>
 disable-model-invocation: true
 ---
