@@ -1,0 +1,26 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local Claude Code settings and state (personal, may contain sensitive paths)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Secrets and environment files: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+secrets/
+
+# Logs and scratch output
+*.log
+tmp/
+scratch/

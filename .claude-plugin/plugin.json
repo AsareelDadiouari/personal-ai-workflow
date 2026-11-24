@@ -1,0 +1,12 @@
+{
+  "name": "personal-ai-workflow",
+  "version": "0.1.0",
+  "description": "Reusable AI development workflow: specialized agents, skills, and workflows built around impact analysis, human approval, and independent review.",
+  "author": {
+    "name": "AsareelDadiouari"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/AsareelDadiouari/personal-ai-workflow",
+  "repository": "https://github.com/AsareelDadiouari/personal-ai-workflow",
+  "keywords": ["workflow", "agents", "impact-analysis", "code-review", "bug-fixing", "database", "migrations"]
+}
