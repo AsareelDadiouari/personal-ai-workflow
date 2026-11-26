@@ -18,10 +18,30 @@ Each workflow skill sets `disable-model-invocation: true`, so Claude never start
 /personal-ai-workflow:pull-request-review feature/csv-export against main
 ```
 
+### Starting from a ticket
+
+If the work is in a tracker, start from the ticket. The `ticket` workflow reads it, decides whether it's a bug, a feature, or a database change, and runs the matching workflow:
+
+```text
+/personal-ai-workflow:ticket https://dev.azure.com/acme/shop/_workitems/edit/1234
+/personal-ai-workflow:ticket SHOP-482
+/personal-ai-workflow:ticket acme/shop#91
+/personal-ai-workflow:ticket <paste the ticket text>
+```
+
+- **Supported trackers:** Azure DevOps, GitHub, and Jira, plus pasted text, which always works.
+- **How it reads the ticket:** through a connected tracker integration in Claude Code if there is one, otherwise the tracker's CLI (`az boards`, `gh`, `jira`), otherwise text you paste. It never handles tokens itself. See [getting-started.md](getting-started.md#connect-your-ticket-tracker-optional).
+- **How it classifies:** it combines the ticket's type field and labels with what the text actually describes, and shows you the evidence. When they disagree (for example, a Story that describes a crash) or confidence is low, it asks you which workflow to run.
+- **What it passes on:** the extracted requirement, including acceptance criteria or reproduction steps, becomes the requirement the independent reviewer checks against.
+- **What it never does:** change the ticket. At the end, it suggests a branch name and a commit reference in your tracker's format, and offers to draft a ticket comment. It posts that comment only with your explicit approval.
+
+The other workflows also accept a ticket ID or URL directly. They read it the same way, and warn you if the ticket looks like it belongs to a different workflow.
+
 The main conversation coordinates. It delegates the work to agents, checks their reports, re-runs tests, reads the diff, and **stops at each checkpoint (⏸) until you answer**. Workflows are instructed never to commit, push, or publish. Those steps are left to you, and your permission rules should back that up.
 
 | Workflow | Agents used | Checkpoints (⏸) |
 |---|---|---|
+| [`ticket`](../skills/ticket/SKILL.md) | Those of the workflow it routes to | Routing when the classification is uncertain or conflicting; posting any ticket comment; plus the checkpoints of the routed workflow |
 | [`new-feature`](../skills/new-feature/SKILL.md) | Full path: `feature-implementation`, then `code-reviewer`. Fast path: `code-reviewer` only | Ambiguous requirements; plan approval when the change is substantial or risky; failing tests; unexpected files in the diff; which review findings to fix |
 | [`bug-fix`](../skills/bug-fix/SKILL.md) | Full path: `bug-investigation`. Either path: `code-reviewer` when risky | Missing reproduction details; fix approval when the cause is only Likely or the fix is risky; unrelated changes in the diff; whether to run an independent review |
 | [`database-change`](../skills/database-change/SKILL.md) | `database-specialist` always (no fast path); `code-reviewer` optional | **Always** plan approval; approval of each destructive step by name; which non-production environment may be used for validation; whether to run an independent review |
@@ -66,6 +86,7 @@ On the full path, the `new-feature` and `bug-fix` workflows first run their agen
 | [`feature-implementation`](../skills/feature-implementation/SKILL.md) | `feature-implementation` | Requirement, plan, checkpoint criteria, incremental implementation, tests, report |
 | [`bug-fixing`](../skills/bug-fixing/SKILL.md) | `bug-investigation` | Reproduction, root cause, same-pattern search, minimal fix, regression test, report |
 | [`database-analysis`](../skills/database-analysis/SKILL.md) | `database-specialist` | Schema mapping, integrity, locking, safe migration patterns, rollback, engine notes, query checklist, report |
+| [`ticket-intake`](../skills/ticket-intake/SKILL.md) | (not preloaded; used by the workflows) | Recognizing a tracker reference, reading the ticket, extracting the requirement, bug-versus-feature classification, linking conventions; [tracker reference](../skills/ticket-intake/trackers.md) |
 | [`independent-review`](../skills/independent-review/SKILL.md) | `code-reviewer` | Review order, evidence labels and blast-radius scale (a compact version of impact analysis), severity scale, verdict rules, report |
 
 You can also use a procedure skill directly, without an agent and without a workflow. For example: `/personal-ai-workflow:impact-analysis what would renaming the Customer.Email column affect?`

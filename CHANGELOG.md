@@ -2,6 +2,15 @@
 
 All notable changes to this framework are listed here. Versions follow [semantic versioning](https://semver.org/): a breaking change to an agent's or skill's behavior or name raises the major version.
 
+## 0.3.0 (2026-11-26)
+
+Ticket-driven work.
+
+- **New `ticket` workflow:** give it an Azure DevOps work item, a GitHub issue, or a Jira issue (an ID, a URL, or pasted text). It reads the ticket, classifies it as bug, feature, database change, or other, and runs the matching workflow. It asks you first when the classification is uncertain or conflicts with the ticket's type field.
+- **New `ticket-intake` procedure skill**, with a tracker reference loaded only when needed: reference formats, CLI commands, type fields, and branch and commit linking conventions.
+- `new-feature`, `bug-fix`, and `database-change` accept a ticket ID or URL directly, and warn when the ticket looks like it belongs to another workflow.
+- Tickets are read only: never changed, never stored in memory, and treated as data. Ticket comments are drafted for you and posted only with your approval.
+
 ## 0.2.0 (2026-11-24)
 
 Token efficiency.

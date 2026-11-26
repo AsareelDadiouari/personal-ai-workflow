@@ -45,7 +45,7 @@ How to use them, when they stop for approval, and their limitations: [docs/agent
 
 ### Procedure skills
 
-Each one is preloaded into its agent. You or Claude can also use it directly.
+Most are preloaded into an agent. You or Claude can also use any of them directly.
 
 | Skill | Purpose | Preloaded into |
 |---|---|---|
@@ -54,6 +54,7 @@ Each one is preloaded into its agent. You or Claude can also use it directly.
 | [`bug-fixing`](skills/bug-fixing/SKILL.md) | Root-cause investigation, minimal fix, regression test. | `bug-investigation` |
 | [`database-analysis`](skills/database-analysis/SKILL.md) | Schema, integrity, locking, safe migrations, rollback, query review. | `database-specialist` |
 | [`independent-review`](skills/independent-review/SKILL.md) | Severity-ranked, evidence-based review with verdict rules. | `code-reviewer` |
+| [`ticket-intake`](skills/ticket-intake/SKILL.md) | Reads an Azure DevOps, GitHub, or Jira ticket (or pasted text), extracts the requirement, and classifies it as bug, feature, database change, or other. | Used by the workflows |
 
 ### Workflows
 
@@ -61,10 +62,13 @@ Each workflow is a skill that only you can start, by name. It runs the steps in 
 
 | Workflow | Invoke with | Flow |
 |---|---|---|
+| [`ticket`](skills/ticket/SKILL.md) | `/personal-ai-workflow:ticket <ID, URL, or pasted ticket>` | read ticket → classify bug, feature, or database change → confirm if unsure → run the matching workflow → suggest branch and commit reference |
 | [`new-feature`](skills/new-feature/SKILL.md) | `/personal-ai-workflow:new-feature <requirement>` | requirements → impact analysis → plan → approval → implement → test → diff review → independent review → summary |
 | [`bug-fix`](skills/bug-fix/SKILL.md) | `/personal-ai-workflow:bug-fix <bug report>` | investigate → root cause → impact → minimal fix → regression test → test → diff review → summary |
 | [`database-change`](skills/database-change/SKILL.md) | `/personal-ai-workflow:database-change <change>` | inspect schema → integrity analysis → proposal → rollback plan → approval → migration → non-production validation → report |
 | [`pull-request-review`](skills/pull-request-review/SKILL.md) | `/personal-ai-workflow:pull-request-review <PR or branch>` | requirement → full diff → regressions → tests → security and performance → findings by severity → assessment |
+
+**Working from tickets.** Give `ticket` a work item from Azure DevOps, an issue from GitHub, or a Jira issue, and it picks the right workflow for you. The other workflows accept a ticket ID or URL too. Tickets are read only, never changed.
 
 **Small changes take a fast path.** `new-feature`, `bug-fix`, and `pull-request-review` check the size and risk of the change first. When it's small and low-risk, the main conversation does the work instead of starting extra agents, which saves tokens. `new-feature` still runs the independent review. Add `--full` to force the full path, or `--review-model sonnet` to run the reviewer on a cheaper model.
 

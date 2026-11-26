@@ -22,7 +22,7 @@ Agent names below assume the plugin is installed as `personal-ai-workflow`. If t
 
 ## Steps
 
-1. **Understand the change.** If the request above is empty, ask for it. Restate it, including why it is needed and which application changes depend on it.
+1. **Understand the change.** If the request above is empty, ask for it. If it is a ticket ID or URL, follow the `ticket-intake` skill first and use its extracted requirement. Restate it, including why it is needed and which application changes depend on it.
 2. **Inspect, analyze, and propose.** Delegate to `personal-ai-workflow:database-specialist` with the request and context. The agent detects the engine and migration tooling, maps the schema, runs the impact and integrity analysis, and proposes the migration and rollback plan. Its procedure always stops for approval before drafting.
 3. **Present the proposal:** integrity risks, locking and duration (with Assumed values labeled), deployment ordering, rollback, irreversible steps, and Unknowns.
 4. **⏸ Approve the plan.** Always wait for explicit approval. Call out any destructive or irreversible step (drop, truncate, broad delete or update, type narrowing, column removal) separately, and require approval for each one by name.

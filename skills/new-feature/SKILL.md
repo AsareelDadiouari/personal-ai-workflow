@@ -22,7 +22,7 @@ Agent names below assume the plugin is installed as `personal-ai-workflow`. If t
 
 ## Steps
 
-1. **Understand the requirement.** If the requirement above is empty, ask for it. Restate it and list acceptance criteria and open questions. ⏸ If anything is ambiguous, ask before continuing.
+1. **Understand the requirement.** If the requirement above is empty, ask for it. If it is a ticket ID or URL, follow the `ticket-intake` skill first and use its extracted requirement. ⏸ If intake classifies the ticket as something other than a feature, say so and ask whether to switch workflows. Restate it and list acceptance criteria and open questions. ⏸ If anything is ambiguous, ask before continuing.
 2. **Choose the path.** Do a quick, read-only scoping pass yourself: locate the change points and their direct callers.
    - **Fast path** if **all** of these hold, and the user did not write `--full`:
      - about 3 files or fewer,

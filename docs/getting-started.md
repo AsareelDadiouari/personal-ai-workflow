@@ -80,9 +80,31 @@ Agents detect the stack on their own. A short `CLAUDE.md` **in the project** (no
 - Build: `dotnet build`; tests: `dotnet test`; frontend tests: `npm test` in `web/`
 - Migrations: EF Core, in `src/Data/Migrations`; never edit applied migrations
 - Non-production database for validation: local Docker container `db-test`
+- Tracker: Jira, project key SHOP; branch names like `feature/SHOP-123-short-title`
 ```
 
 Keep project-specific and confidential details there, inside the project's own repository, never in this framework.
+
+## Connect your ticket tracker (optional)
+
+The `ticket` workflow reads tickets in one of three ways, in this order of preference:
+
+1. **A tracker integration connected in Claude Code**, for example an Atlassian (Jira), Azure DevOps, or GitHub connector, if your organization provides one.
+2. **The tracker's command-line tool**, signed in by you:
+
+   | Tracker | Install and sign in |
+   |---|---|
+   | GitHub | Install [GitHub CLI](https://cli.github.com/), then run `gh auth login` |
+   | Azure DevOps | Install the [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), then run `az extension add --name azure-devops`, `az login`, and optionally `az devops configure --defaults organization=https://dev.azure.com/<org> project=<project>` |
+   | Jira | Install [jira-cli](https://github.com/ankitpokhrel/jira-cli) and run `jira init`, or use Atlassian's own CLI (`acli`) |
+
+3. **Pasting the ticket text.** This needs no setup and works everywhere.
+
+Sign-in always stays with you. The framework never asks for, types, or stores tokens.
+
+**At work:** use only the tracker access your organization approves. If it doesn't allow CLI tokens or third-party connectors, paste the ticket instead. Ticket content is often confidential: it stays in the session and is never written to memory or to this framework.
+
+Tell the workflow which tracker a project uses by adding a line to the project's `CLAUDE.md`, as in the example above. Then even a bare ticket number works.
 
 ## Your first runs
 
@@ -98,9 +120,10 @@ Then try a review of your current changes:
 /personal-ai-workflow:pull-request-review my uncommitted changes. Requirement: <what the change should do>
 ```
 
-When you're comfortable, use a full workflow:
+When you're comfortable, use a full workflow, either from a ticket or from a description:
 
 ```text
+/personal-ai-workflow:ticket <ticket ID, URL, or pasted text>
 /personal-ai-workflow:new-feature <requirement>
 /personal-ai-workflow:bug-fix <bug report>
 /personal-ai-workflow:database-change <schema change>

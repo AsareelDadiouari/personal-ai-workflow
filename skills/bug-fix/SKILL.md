@@ -22,7 +22,7 @@ Agent names below assume the plugin is installed as `personal-ai-workflow`. If t
 
 ## Steps
 
-1. **Gather the report.** If the report above is empty or lacks expected vs. actual behavior, ask for it. ⏸ Ask for missing reproduction details only if they block the investigation.
+1. **Gather the report.** If the report above is a ticket ID or URL, follow the `ticket-intake` skill first and use its extracted requirement. ⏸ If intake classifies the ticket as something other than a bug, say so and ask whether to switch workflows. If the report is empty or lacks expected vs. actual behavior, ask for it. ⏸ Ask for missing reproduction details only if they block the investigation.
 2. **Investigate and find the root cause.** Choose the path:
    - **Fast path**, unless the user wrote `--full`: when the report points to one clear, local area (an error with a stack trace, a failing test, one module), investigate it yourself, read-only, following the `bug-fixing` skill up to its proposed fix. Switch to the full path, passing on what you found, as soon as any of these is true: the root cause isn't clear after a focused look, the fix would touch more than about 3 files, or it involves a public contract, schema, security, CI/CD, infrastructure, or shared code.
    - **Full path** otherwise: delegate to `personal-ai-workflow:bug-investigation` with the full report and the instruction: **diagnose only: reproduce, find the root cause, analyze the impact, and propose the minimal fix; make no changes.**
